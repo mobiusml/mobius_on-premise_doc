@@ -6,7 +6,7 @@ Overview and work flow
 Mobius Vision SDK provides a powerful similarity search that can be run in just a few steps.
 Please note that there is a difference between the very first usage ("initial phase"), and the usage of similarity search in a running system ("adding samples").
 We provide examples for both cases. In the initial phase, the system is trained on all images that are in the image database.
-When one wants to extend the image database of a running system with new samples, only the added images are analyzed; in addition, the indices of all images are updated. This prevents the computationally heavy training procedure to be carried out again on all input images.
+When one wants to extend the image database of a running system with new samples, only the added images are analyzed; in addition, the indices of all images are updated. This prevents the computationally heavy training procedure to be carried out again on images that have already been added to the image database.
 
 Initial phase:
 
@@ -58,9 +58,9 @@ The SDK then processes the added images by extraxting numerical features accordi
 Index Training
 ------------
 
-For the similarity search, the processes the numerical features extracted in the last step have to be further processed. This so-called "index training" enables fast search and adaptation to the provided image data.
+For the similarity search, the numerical features extracted in the last step have to be further processed. This so-called "index training" enables fast search and adaptation to the provided image data.
 
-To run index training, send GET request to the following endpoint.
+To run index training, send GET request to the following endpoint:
 ::
 
   curl 127.0.0.1:5000/similarity/train
@@ -87,15 +87,15 @@ The following error messages could appear:
 Search
 ------
 
-After sample images have been added to the docker volume, as well as all samples have been indexed and trained on, the search function can be used.
+After image samples have been added to the docker volume, as well as all samples have been indexed and trained on, the search function can be used.
 
-Similarity search with a query image can be used with the following endpoint.
+Similarity search with a query image can be used with the following endpoint:
 ::
 
   curl 127.0.0.1:5000/similarity/search -X POST -F "data=@./your_query_img.jpg"
 
 
-Or this call from a python script:
+Or using this call from a python script:
 ::
 
   def search(img_path):
@@ -112,7 +112,7 @@ The output is split into three parts:
 
 * A list of distances in floating point precision that quanifies the similarity of similar images found. Since the lower distance implies higher similarity, this list is sorted in ascending order.
 * A list of image IDs (as added to the index) of the most similar images, sorted the same way as the first list.
-* A status message that says 'ok' if no error occurred in the search.
+* A status message, which says 'ok' if no error occurred in the search, and 'error' otherwise.
 
 
 Example of an output
@@ -135,13 +135,13 @@ You can control the number of similar images returned by the environment variabl
 Updating
 ------------
 
-It might be desired to add more images to the image database after the initial training. In this case, you can use the update function that preserves previously added images in the index, and adds the new images without retraining the images that are already in the image database.
+It might be desired to add more images to the image database in a running system. In this case, one can use the update function that preserves previously added images in the index, and adds the new images without retraining the images that are already in the image database.
 
 .. note::
 
   Before the update function can be run, images have to be added to the docker volume (see Adding samples).
 
-To update the index, you can send a GET request to the following endpoint.
+Once all the desired images have been added, one has to update the index. This can be done by sending a GET request to the following endpoint.
 ::
 
   curl 127.0.0.1:5000/similarity/update
