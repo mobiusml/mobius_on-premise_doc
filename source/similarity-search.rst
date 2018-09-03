@@ -153,6 +153,6 @@ The request above returns a json file with a task_id, which can be used to get s
 
 .. warning::
 
-  This step is computationally expensive. If the number of images is very large (e.g., more than 1 million),  it may take several hours to process all images on a single GPU.
+  This step is computationally expensive. If the number of images is very large (e.g., more than 1 million), it may take several hours to process all images on a single GPU.
 
 Once the updating is complete, the similarity search will be performed on all images of the extended image database.
