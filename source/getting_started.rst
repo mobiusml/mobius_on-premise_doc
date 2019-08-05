@@ -13,7 +13,7 @@ The Mobius Key has to be passed as an argument by adding a `?MOBIUS_KEY=<your_ke
 For example:
 ::
 
-  curl http://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>
+  curl https://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>
         -X POST -F "data=@./your_image.jpg"
 
 
