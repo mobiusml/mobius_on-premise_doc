@@ -6,7 +6,7 @@ The *pre-trained* image keywording module can be used to obtain predictions for 
 This is an example for prediction:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
+  curl "https://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
 
 You can call the endpoint from python
 ::
@@ -14,7 +14,7 @@ You can call the endpoint from python
   def get_keywords(img):
      with open(img,'rb') as image:
          data = {'data': image}
-         pred = requests.post('http://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>', files=data).json()
+         pred = requests.post('https://webdemo.mobius.ml/test_api/predict/concepts?MOBIUS_KEY=<your_key>', files=data).json()
      return pred
 
 .. note::
@@ -29,7 +29,7 @@ There is an additional request argument `top_k` to obtain the highest scored `k`
 In this mode, the number of keywords is fixed then.
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/predict/concepts?top_k=10&MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
+  curl "https://webdemo.mobius.ml/test_api/predict/concepts?top_k=10&MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
 
 
 Prediction with large number of images
