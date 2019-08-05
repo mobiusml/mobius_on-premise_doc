@@ -10,7 +10,7 @@ In the following, we show an example of how to do prediction of keywords and/or 
 First, we need to send the video to the demo server for analysis.
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_video.mp4"
+  curl "https://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_video.mp4"
 
 The above command will return an information message:
 ::
@@ -23,7 +23,7 @@ Depending on various factors, including duration and resolution of the video, bu
 With the following command, you can check the status of the process at any time. 
 ::
   
-  curl "http://webdemo.mobius.ml/test_api/status/<task_id>?MOBIUS_KEY=<your_key>"
+  curl "https://webdemo.mobius.ml/test_api/status/<task_id>?MOBIUS_KEY=<your_key>"
   
 where you would replace <task_id> with 599600ef-817f-413e-85f5-d4fc55313164 in the example above. 
 
@@ -74,7 +74,7 @@ Arguments
 Depending on the features that have been bought, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates this:
 ::
   
-  curl "http://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>&keyword_threshold=0.6&action_threshold=0.7" -X POST -F "data=@./your_video.mp4"
+  curl "https://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>&keyword_threshold=0.6&action_threshold=0.7" -X POST -F "data=@./your_video.mp4"
   
 Below is list of the different arguments that can be set, together with their default values.
 
@@ -122,12 +122,12 @@ The code snipped below shows how prediction can be done in Python.
     def analyze_video(video_path):
          with open(video_path,'rb') as video:
              data = {'data': video}
-             res = requests.post('http://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>', files=data).json()
+             res = requests.post('https://webdemo.mobius.ml/test_api/video/tag?MOBIUS_KEY=<your_key>', files=data).json()
              task_id = res['task_id']
-             msg = requests.get('http://webdemo.mobius.ml/test_api/status/' + task_id + '?MOBIUS_KEY=<your_key>').json()
+             msg = requests.get('https://webdemo.mobius.ml/test_api/status/' + task_id + '?MOBIUS_KEY=<your_key>').json()
              
              while(msg['status'] == 'ongoing'):
-                 msg = requests.get('http://webdemo.mobius.ml/test_api/status/' + task_id + '?MOBIUS_KEY=<your_key>').json()
+                 msg = requests.get('https://webdemo.mobius.ml/test_api/status/' + task_id + '?MOBIUS_KEY=<your_key>').json()
                  time.sleep(1.0)
                  
              if(msg['status'] == 'success'):
