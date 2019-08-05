@@ -20,7 +20,7 @@ Adding positive and negative samples
 To add images to SDK send POST request to the following endpoint.
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/add/<type>/<custom_model_id>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
+  curl "https://webdemo.mobius.ml/test_api/add/<type>/<custom_model_id>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
 
 where type is type of the sample (can be only either 'positive' or 'negative') and custom_model_id is an integer from 1.
 
@@ -30,7 +30,7 @@ If you want to add images for the custom model with id = 1 then you can do like 
 
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/add/<type>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
+  curl "https://webdemo.mobius.ml/test_api/add/<type>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
 
 .. note::
 
@@ -48,7 +48,7 @@ Below is an example on how to do add multiple samples at the same time using Pyt
     def add_sample((img, sample_type, custom_model_id)):
       with open(img, 'rb') as image:
         data = {'data': image}
-        r = requests.post('http://webdemo.mobius.ml/test_api/add/%s/%d?MOBIUS_KEY=<your_key>' % (sample_type, custom_model_id), files=data).json()
+        r = requests.post('https://webdemo.mobius.ml/test_api/add/%s/%d?MOBIUS_KEY=<your_key>' % (sample_type, custom_model_id), files=data).json()
       return r
 
 
@@ -81,17 +81,17 @@ Training
 To run training, you can send a GET request to the following endpoint:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/train/<custom_model_id>?MOBIUS_KEY=<your_key>"
+  curl "https://webdemo.mobius.ml/test_api/train/<custom_model_id>?MOBIUS_KEY=<your_key>"
 
 If you want to add images for the custom model with id = 1 then you can do like this:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/train?MOBIUS_KEY=<your_key>"
+  curl "https://webdemo.mobius.ml/test_api/train?MOBIUS_KEY=<your_key>"
 
 The following request will return a json file with field task_id that can be used to get status of training:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/status/<task_id>?MOBIUS_KEY=<your_key>"
+  curl "https://webdemo.mobius.ml/test_api/status/<task_id>?MOBIUS_KEY=<your_key>"
 
 
 Prediction from Images
@@ -100,12 +100,12 @@ Prediction from Images
 To get the prediction of a custom model with id = custom_model_id, you can call the following endpoint:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/predict/custom/<custom_model_id>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
+  curl "https://webdemo.mobius.ml/test_api/predict/custom/<custom_model_id>?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
 
 If you want to add images for the custom model with id = 1 then you can do like this:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/predict/custom?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
+  curl "https://webdemo.mobius.ml/test_api/predict/custom?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_img.jpg"
 
 In python:
 ::
@@ -113,5 +113,5 @@ In python:
   def get_custom_predictions(img, custom_model_id=1):
      with open(img, 'rb') as image:
          data = {'data': image}
-         pred = requests.post('http://webdemo.mobius.ml/test_api/predict/custom/%d?MOBIUS_KEY=<your_key>'% custom_model_id, files=data).json()
+         pred = requests.post('https://webdemo.mobius.ml/test_api/predict/custom/%d?MOBIUS_KEY=<your_key>'% custom_model_id, files=data).json()
      return pred
