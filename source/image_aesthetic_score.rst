@@ -5,7 +5,7 @@ Prediction with the aesthetics module works in a similar way to the keywording m
 That is, the aesthetic score can be obtained by issuing the following command:
 ::
 
-  curl "http://webdemo.mobius.ml/test_api/predict/aesthetic?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
+  curl "https://webdemo.mobius.ml/test_api/predict/aesthetic?MOBIUS_KEY=<your_key>" -X POST -F "data=@./your_image.jpg"
 
 The score is a floating point value between 0 and 1, where a score close to zero indicates
 that the aesthetics of the image are poor while a score close to 1 indicates that the aesthetics are very good.
@@ -16,7 +16,7 @@ Or in python
   def get_aesthetic(img):
      with open(img,'rb') as image:
          data = {'data': image}
-         pred = requests.post('http://webdemo.mobius.ml/test_api/predict/aesthetic?MOBIUS_KEY=<your_key>', files=data).json()
+         pred = requests.post('https://webdemo.mobius.ml/test_api/predict/aesthetic?MOBIUS_KEY=<your_key>', files=data).json()
      return pred
 
 Prediction with large number of images
