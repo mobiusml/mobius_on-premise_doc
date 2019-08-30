@@ -82,7 +82,7 @@ To train the similarity search approximator, send a GET request to the following
 The request above will return a json file with the field task_id. The following command shows how the task_id can be used to get the status of the training:
 ::
 
-  curl 127.0.0.1:5000/similarity/status/<task_id>
+  curl 127.0.0.1:5000/status/<task_id>
 
 The following error messages could appear:
 
