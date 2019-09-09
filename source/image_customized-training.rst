@@ -105,7 +105,7 @@ To reset a model, you can send a GET request to the following endpoint:
 If you want to reset a custom model with id = 1 then you can do like this:
 ::
 
-  curl "https://webdemo.mobius.ml/test_api/train?MOBIUS_KEY=<your_key>"
+  curl "https://webdemo.mobius.ml/test_api/clean?MOBIUS_KEY=<your_key>"
 
 
 Prediction from Images
