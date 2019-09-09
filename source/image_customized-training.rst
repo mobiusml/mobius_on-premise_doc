@@ -79,6 +79,15 @@ The following request will return a json file with field task_id that can be use
 ::
 
   curl 127.0.0.1:5000/status/<task_id>
+  
+Resetting a model
+------------
+
+To reset a model, you can send a GET request to the following endpoint:
+::
+
+  curl 127.0.0.1:5000/clean/<tag>
+
 
 
 Prediction from Images
