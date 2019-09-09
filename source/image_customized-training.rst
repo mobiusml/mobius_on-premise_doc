@@ -94,6 +94,20 @@ The following request will return a json file with field task_id that can be use
   curl "https://webdemo.mobius.ml/test_api/status/<task_id>?MOBIUS_KEY=<your_key>"
 
 
+Resetting a model
+------------
+
+To reset a model, you can send a GET request to the following endpoint:
+::
+
+  curl "https://webdemo.mobius.ml/test_api/clean/<custom_model_id>?MOBIUS_KEY=<your_key>"
+
+If you want to reset a custom model with id = 1 then you can do like this:
+::
+
+  curl "https://webdemo.mobius.ml/test_api/train?MOBIUS_KEY=<your_key>"
+
+
 Prediction from Images
 -----------------------
 
