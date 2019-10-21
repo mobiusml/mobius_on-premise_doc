@@ -20,7 +20,7 @@ To run face recognition following endpoint can be used.
 
   curl 127.0.0.1:5000/predict/faces?group_id=<group_id> -X POST -F "data=@./your_image.jpg"
 
-where `group_id` is optional argument that specify a database to use for face identification. If `group_id` is not specified default `group_id` will be used (`group_id=default`).
+where `group_id` is optional argument that specify a database to use for face identification. If `group_id` is not specified default `group_id` will be used (`group_id=default`). It is possible to do search in multiple databases in one call by providing the list of group IDs into an argument `group_id`. For example, `group_id=test,default`.
 
 You can call the endpoint from python
 ::
