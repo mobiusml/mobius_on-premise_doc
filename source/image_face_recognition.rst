@@ -3,26 +3,26 @@ Face recognition
 
 Face recognition can be used to get:
 
-* locations of the faces,
-* age estimate for each detected face,
-* gender estimate for each detected face,
-* recognize the persons that are added to the database.
+* locations (bounding boxes) of the faces;
+* age estimate for each detected face;
+* gender estimate for each detected face;
+* recognize people (provided that they are in the database).
 
-The face recognition database allows to tag the persons on images and videos. Multiple databases can be created and used by specifying `group_id`. The database with more that 11 000 celebrities can be provided by request.
+The face recognition database allows to tag the persons on images and videos. Multiple databases can be created and used by specifying a `group_id`. A pre-populated database with more than 11 000 celebrities can be provided by request.
 
-New faces can be registered by providing image with face and person name (or person ID). More on how to create and modify face recognition databases can by found in `Face recognition database`_.
+New faces can be registered by providing an image with face and person name (or person ID). More information on how face recognition databases can be created and modified can be found in `Face recognition database`_.
 
 Prediction
 ----------
 
-To run face recognition following endpoint can be used.
+To run face recognition, the following endpoint can be used.
 ::
 
-  curl 127.0.0.1:5000/predict/faces?group_id=<group_id> -X POST -F "data=@./your_image.jpg"
+  curl 127.0.0.1:5000/predict/faces?group_id=<group_id> -X POST -F "data=@./your_image.jpg",
 
-where `group_id` is optional argument that specify a database to use for face identification. If `group_id` is not specified default `group_id` will be used (`group_id=default`). It is possible to do search in multiple databases in one call by providing the list of group IDs into an argument `group_id`. For example, `group_id=test,default`.
+where `group_id` is an optional argument that specifies a database to use for face identification. If `group_id` is not specified, the default `group_id` will be used (`group_id=default`). It is possible to do search in multiple databases in one call by providing the list of group IDs into an argument `group_id`. For example, `group_id=test,default` would search for matching faces in both the `default` and the `test` database.
 
-You can call the endpoint from python
+The face recognition endpoint can be called from python as follows:
 ::
   group_id = <group_id>
 
@@ -36,34 +36,34 @@ You can call the endpoint from python
 Face recognition database
 -------------------------
 
-In order to identify faces the face recognition database should be created.
+In order to identify faces, a face recognition database has to be created.
 
-There are few restriction on what images can be used for populating face database:
+There are a few restrictions on what images can be used for populating the face database:
 
-* image should contain only one face,
-* face should be at least 112x112 pixels.
+* the image should contain only one face;
+* the size of the face should be at least 112x112 pixels.
 
-Also we recommend to select images where:
+We further recommend to select images where:
 
-* face is looking straight at the camera (small deviations are fine),
-* face is not obstructed by hands, sunglasses or other objects (glasses where eyes are visible should be fine, but if possible select a photo without),
-* lighting is uniform,
-* face is not blurry.
+* the face is looking straight at the camera (small deviations are fine);
+* the face is not obstructed by hands, sunglasses or other objects (glasses where eyes are visible should be fine, but if possible select a photo without);
+* the lighting is uniform;
+* the face is not blurry.
 
 
-To add images to face recognition database, you can send a POST request to the following endpoint:
+To add images to the face recognition database, you can send a POST request to the following endpoint:
 ::
 
   curl 127.0.0.1:5000/faces/add?image_id=<image_id>&person_id=<person_id>&group_id=<group_id> -X POST -F "data=@./your_img.jpg"
   
 where
 
-* `image_id` is an optional argument that identify added image in the system. Without this argument, the system will generate a random ID number and return it as a response.
-* `person_id` is optional argument that specify a string that will be used to identify person. If `person_id` is not provided random string will be used as person_id. 
-* `group_id` is optional argument that specify a database to use for face identification. If `group_id` is not specified default `group_id` will be used (`group_id=default`).
+* `image_id` is an optional argument that is used to identify the added image in the system. Without this argument, the system will generate a random ID number and return it as a response;
+* `person_id` is an optional argument that specifies a string that will be used to identify the person. If `person_id` is not provided, a random string will be used as person_id;
+* `group_id` is an optional argument that specifies the database where the face will be added to. If `group_id` is not specified, the default `group_id` will be used (`group_id=default`).
 
 
-In python:
+Below is a python code snippet that can be used to add faces to a face database: 
 ::
   def add_face(img, person_id, group_id='default', image_id=None):
       with open(img,'rb') as image:
@@ -75,42 +75,42 @@ In python:
       return r
 
 
-There are few ways to delete items from face recognition databases:
+There are a few ways to delete items from a face recognition database:
 
-* deleting image using image ID,
-* deleting person using person ID,
-* deleting face recognition database using group ID.
+* deleting image using image ID;
+* deleting person using person ID (this removes all information stored for that person);
+* deleting a whole face recognition database using a group ID.
 
 
-To delete image:
+To delete an image, the following endpoint can be called:
 ::
 
   curl 127.0.0.1:5000/faces/remove/<image_id>?group_id=<group_id>
 
 where
 
-* `image_id` is ID that was provided or returned when faces was added,
-* `group_id` is optional argument that specify from which database to remove an image. If `group_id` is not specified default `group_id` will be used (`group_id=default`).
+* `image_id` is the ID that was provided or returned when the face was added;
+* `group_id` is an optional argument that specifies the database from which the image is to be removed. If `group_id` is not specified, the default `group_id` will be used (`group_id=default`).
 
 
-To delete person:
+To delete a person:
 ::
 
   curl 127.0.0.1:5000/faces/remove_person/<person_id>?group_id=<group_id>
 
 where
 
-* `person_id` is ID of the person that was provided or returned when faces was added,
-* `group_id` is optional argument that specify from which database to remove a person. If `group_id` is not specified default `group_id` will be used (`group_id=default`).
+* `person_id` is the ID of the person that was provided or returned when faces was added;
+* `group_id` is an optional argument that specifies the database from which the person is to be removed. If `group_id` is not specified, the default `group_id` will be used (`group_id=default`).
 
 
-To delete face recognition database:
+To delete a face recognition database:
 ::
 
   curl 127.0.0.1:5000/faces/remove_group/<group_id>
 
 where
 
-* `group_id` specifies a database that need to be removed.
+* `group_id` specifies the face database that is to be removed.
 
 
