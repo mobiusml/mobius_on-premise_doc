@@ -3,14 +3,14 @@ Face recognition
 
 Face recognition can be used to get:
 
-* locations (bounding boxes) of the faces;
-* age estimate for each detected face;
-* gender estimate for each detected face;
-* recognize people (provided that they are in the database).
+* face detection (bounding boxes) of the faces;
+* age estimate for all detected faces;
+* gender estimate for all detected faces;
+* person identification (if the person is added to the database with a sample image).
 
 The face recognition database allows to tag the persons on images and videos. Multiple databases can be created and used by specifying a `group_id`. A pre-populated database with more than 11 000 celebrities can be provided by request.
 
-New faces can be registered by providing an image with face and person name (or person ID). More information on how face recognition databases can be created and modified can be found in `Face recognition database`_.
+New faces can be registered by providing an image showing the face of the person and the person name (or person ID). More information on how face recognition databases can be created and modified can be found in `Face recognition database`_.
 
 Prediction
 ----------
@@ -21,6 +21,11 @@ To run face recognition, the following endpoint can be used.
   curl 127.0.0.1:5000/predict/faces?group_id=<group_id> -X POST -F "data=@./your_image.jpg",
 
 where `group_id` is an optional argument that specifies a database to use for face identification. If `group_id` is not specified, the default `group_id` will be used (`group_id=default`). It is possible to do search in multiple databases in one call by providing the list of group IDs into an argument `group_id`. For example, `group_id=test,default` would search for matching faces in both the `default` and the `test` database.
+
+A sample output can be found here:
+::
+
+  {"faces":[{"age":39,"box":[152,47,1034,1196],"gender":"male","person":{"id":"Leo Varadkar","score":0.8864131314413889}}],"status":"success"}
 
 The face recognition endpoint can be called from python as follows:
 ::
@@ -79,7 +84,7 @@ There are a few ways to delete items from a face recognition database:
 
 * deleting image using image ID;
 * deleting person using person ID (this removes all information stored for that person);
-* deleting a whole face recognition database using a group ID.
+* deleting a whole face recognition database using a group ID (this removes all persons stored in the specified group);
 
 
 To delete an image, the following endpoint can be called:
