@@ -64,10 +64,12 @@ Below is list of the different arguments that can be set, together with their de
 
 If you have bought the keyword tagging feature, the following arguments can be set:
 
-* *num_fps* (int, default *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
-* *tag_keywords* (default *true*): Flag to signal if keywording tags should be returned.
-* *keyword_threshold* (default *0.5*): Threshold on the confidence of the keyword predictions.
-* *keyword_topk* (default *50*): Maximum number of keywords to be returned *per video shot*.
+* *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
+* *tag_keywords* (default: *true*): Flag to signal if keywording tags should be returned.
+* *keyword_threshold* (default: *0.5*): Threshold on the confidence of the keyword predictions.
+* *keyword_topk* (default: *50*): Maximum number of keywords to be returned *per video shot*.
+* *tag_faces* (default: true): Flag to signal if face recognition should be used.
+* *group_id* (default: `default`): An optional argument that specifies a database to use for face identification.
 
 
 **Segment-level and Video-level Tagging**

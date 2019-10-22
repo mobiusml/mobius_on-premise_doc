@@ -143,3 +143,37 @@ Custom model training
      - | Provided image ID is already in use. Can happen if the same image
        | is passed to the add function multiple times.
      - | Please check the image IDs for uniqueness and remove duplicates.
+
+
+Face recognition
+------------------------
+
+.. list-table:: Status messages that only appear when using face recognition
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Status message
+     - Possible causes
+     - Recommended solution
+   * - no_faces_detected
+     - | No faces are detected on provided image.
+     - | Provide another image.
+   * - more_than_one_face_detected
+     - | More than one face are detected.
+     - | Provide another image that contains exactly one face.
+   * - face_too_small
+     - | Detected face is too small on provided image.
+     - | Provide another image or same image in higher resolution.
+   * - image_id_not_found
+     - | Provided image ID is not found.
+     - | Please check the image ID.
+   * - person_id_not_found
+     - | Provided person ID is not found.
+     - | Please check the person ID.
+   * - group_id_not_found
+     - | Provided group ID is not found.
+     - | Please check the group ID.
+   * - duplicate_image_id
+     - | Provided image ID is already in use. Can happen if the same image
+       | is passed to the add function multiple times.
+     - | Please check the image IDs for uniqueness and remove duplicates.
