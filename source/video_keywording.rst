@@ -1,13 +1,13 @@
 Video Tagging
 ==============
-The video tagging module has been trained on our large in-house image dataset to provide state-of-the-art keywording results.
+The video tagging module has been trained on our large in-house image dataset to provide state-of-the-art results for keywording and face recognition.
 
 Getting started
 ---------------
 
 In the following, we show an example of how to do prediction of keywords on videos.
 
-First, we need to send the video to the (local) vision server for analysis.
+First, we need to send the video to the (local) server for analysis.
 ::
 
   curl 127.0.0.1:5000/video/tag -X POST -F "data=@./your_video.mp4"
@@ -39,19 +39,25 @@ When the processing is finished, the status message will contain the keywording 
   ["adult", 0.7601927518844604], ["indoors", 0.717658519744873], ...], 
   "time_stamps": [0.0, 19.333333333333332]}]}
 
-All keywords with a confidence above a certain threshold are returned (0.5 by default).
+All keywords with a confidence above a certain threshold are returned (0.5 by default) in lists for 13 categories that are pre-defined. Using the categories structures the output to be easier for humans to comprehend as the total standard list of concepts is more than 10 thousand for the latest SDK version. 
 
 .. note::
     
     Depending on the complexity of a video shot, the number of keywords returned will vary. In addition, in case the shot
     detector in disabled, the results might also be of lower quality in cases where a segment contains different shots (and hence, potentially very different concepts). 
-    
+
+
+Results of face recognition are returned as a list called *identities*. 
+
+.. note::
+  
+    In order to match a face in a frame to faces in a database, the face has to be first detected and located in the frame. This might fail if the face is obscured partially or at an extreme angle. Best detection results can be obtained when the face is facing the camera. For the step of matching the face to the database, no match might be made if the facial landmarks are obscured by sunglasses, hats or other accessiors or if the face is partially too dark. Identities can be only returned when a face is successfully located and the machine is confident that the facial landmarks are a match to the sample in the database. 
     
 
 Arguments
 ----------
 
-Depending on the features that have been bought, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates this:
+Depending on the features that are packaged into the SDK, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates this:
 ::
   
   curl 127.0.0.1:5000/video/tag?keyword_threshold=0.6 -X POST -F "data=@./your_video.mp4"
@@ -66,40 +72,27 @@ If you have bought the keyword tagging feature, the following arguments can be s
 
 * *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
 * *tag_keywords* (default: *true*): Flag to signal if keywording tags should be returned.
-* *keyword_threshold* (default: *0.5*): Threshold on the confidence of the keyword predictions.
+* *keyword_threshold* (default: *0.5*): Threshold on the confidence of the keyword predictions. When a lower threshold is set, more tags will be returned but the machine has a lower confidence that they are correct. 
 * *keyword_topk* (default: *50*): Maximum number of keywords to be returned *per video shot*.
-* *tag_faces* (default: true): Flag to signal if face recognition should be used.
-* *group_id* (default: `default`): An optional argument that specifies a database to use for face identification.
+* *tag_faces* (default: true): Flag for the SDK if face recognition should be used and detected labels for faces should be returned in a separate category of tags called *identities*. 
+* *group_id* (default: `default`): An optional argument that specifies a database to use for face identification. The standard database of face landmark information and corresponding labels of a selection of more than 10 thousand celebrities that can be provided by Mobius is called *mobius_core*. 
 
 
 **Segment-level and Video-level Tagging**
 
-|mobvis_video| offers both segment-level as well as video-level tagging of videos, whose default values depend on whether the **shot detection feature** has been bought. The arguments are:
+|mobvis_video| offers both segment-level as well as video-level tagging of videos, whose default values depend on whether the **shot detection feature** has been packaged to the SDK. The arguments are:
 
 * *video_level_tags* (default *true*)
 * *shot_level_tags* (default *true* if **shot detection has been bought**, *false* otherwise)
 
-Furthermore, an optional argument can be used to specify a fixed video tagging interval. This can be useful in case the shot detection feature has not been bought, but the content is still changing over time.
+Furthermore, an optional argument can be used to specify a fixed video tagging interval. This can be useful in case the shot detection feature has not been packaged to the SDK, but the content is still changing over time.
 
-* *fixed_segment_length* (default *3*)
+* *fixed_segment_length* (default *3* seconds)
 
 .. note::
   
-    If *fixed_segment_length* is set, the shot detector is disabled.
+    If *fixed_segment_length* is set, the shot detector is disabled. This means that the video will be analysed in segments of an equal length. In case of drastic scene changes there is a chance that the results will be averaged (pooled) over the scene change hence important concepts might disappear from the results of this segment. 
 
-
-Error messages
----------------
-
-If there is an error on one of the input arguments, the following status message will be returned:
-::
-  
-  {'status': 'error', 'message': 'wrong_arguments_format', 'arg': 'keyword_topk'}
-  
-If the video format is not supported, the status message is:
-::
-  
-  {'status': 'error', 'message': 'video_reading_error'}
   
 
 Prediction in Python
@@ -128,9 +121,6 @@ The code snipped below shows how prediction can be done in Python.
                 pred = msg['status']
         
         return pred
-
-
-
 
 
   
