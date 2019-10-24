@@ -60,6 +60,11 @@ General use of SDK
        | Could be a problem with the library OpenCV/pil.
      - | The on-premise SDK supports jpg and png image formats.
        | Another possible solution is to verify that the image is not corrupted.
+   * - video_reading_error
+     - | Various possible causes. 
+       | Often the error is caused because the video format is not supported. 
+       | The SDK supports mov and mp4 as formats. 
+     - | Please check the input file format. 
    * - data_payload_required
      - | No data was provided or send request but no input data field was found.
      - | Please follow instructions from the documentation how to fill in data.
@@ -75,6 +80,10 @@ General use of SDK
      - | Training is going on (similarity search or custom model training).
        | This is the message for status 'ongoing'.
      - | Please wait for training to complete.
+   * - wrong_arguments_format
+     - | Arguments passed to the video tagging are not in expected format. 
+       | Will pass the argument that caused the error to be thrown. 
+     - | Please check the arguments in the video tagging call. 
    * - file_saving_error
      - | The SDK can't save a (custom model or other features) file or
        | extract features. Could be caused by problem with file system or data directory in docker.
