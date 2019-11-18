@@ -1,7 +1,7 @@
-Keywording
+Tags
 ==========
 
-The *pre-trained* image keywording module can be used to obtain predictions for a wide range of applications.
+The *pre-trained* image tags module can be used to obtain predictions for a wide range of applications.
 
 This is an example for prediction:
 ::
@@ -11,7 +11,7 @@ This is an example for prediction:
 You can call the endpoint from python
 ::
 
-  def get_keywords(img):
+  def get_concept_predictions(img):
      with open(img,'rb') as image:
          data = {'data': image}
          pred = requests.post('http://127.0.0.1:5000/predict/concepts', files=data).json()
@@ -19,22 +19,22 @@ You can call the endpoint from python
 
 .. note::
 
-    Depending of the image, the number of returned keywords might vary in this mode.
+    Depending of the image, the number of returned concepts might vary in this mode.
 
-All keywords with a confidence above a certain threshold are returned.
-For some simple images, the keywording module might only recognise a small number of matching keywords.
-However, in cluttered scenes, there might be a long list of matching keywords.
+All concepts with a confidence above a certain threshold are returned.
+For some simple images, the tags module might only recognise a small number of matching concepts.
+However, in cluttered scenes, there might be a long list of matching concepts.
 
-There are a number of arguments that can be passed to alter behaviour of image keywording. The arguments can be passed by adding a “?” after the tag command, followed by the argument=value. Several arguments are separated using the “&”. The following example illustrates this:
+There are a number of arguments that can be passed to alter behaviour of the tags module. The arguments can be passed by adding a “?” after the tag command, followed by the argument=value. Several arguments are separated using the “&”. The following example illustrates this:
 ::
   
   curl 127.0.0.1:5000/predict/concepts?top_k=10&hierarchical_output=false -X POST -F "data=@./your_image.jpg"
   
 Below is list of the different arguments that can be set, together with their default values.
 
-* *top_k* (unspecified by default): Flag to obtain the highest scored `k` keywords
-* *keyword_threshold* (default *0.55*): Threshold on the confidence of keyword predictions
-* *hierarchical_output* (default *true*): Flag to signal if keywords should be grouped by category
+* *top_k* (unspecified by default): Flag to obtain the highest scored `k` concepts
+* *keyword_threshold* (default *0.55*): Threshold on the confidence of concept predictions
+* *hierarchical_output* (default *true*): Flag to signal if concepts should be grouped by category
 
 
 Prediction with large number of images
@@ -52,6 +52,6 @@ Here is an example how to use multiprocessing in python to speed things up:
 
   pool = Pool(50)
   images = [path_to_image1, path_to_image2, ...] #List of image paths
-  results = pool.map(get_keywords, images)
+  results = pool.map(get_concept_predictions, images)
   pool.close()
   pool.join()
