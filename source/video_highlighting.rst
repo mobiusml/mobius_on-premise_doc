@@ -1,4 +1,4 @@
-Video Highlighting
+Video Highlights
 ====================
 This feature allows to obtain 'highlight scores' for video segments, which can be used to identify the most important parts of a video. This can be very useful for example in order to create a summary of a video that can be shown if someone is browsing through a video database, or to identify the highlights in a recording of unedited video.
 
@@ -73,7 +73,17 @@ When the processing is finished, the status message will contain the highlight s
 Arguments
 ----------
 
-Depending on the features that have been bought, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates how the frame extraction rate (e.g., how many frames are analyzed per second of video) can be changed:
+There are a number of arguments that can be passed for the highlights module. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". 
+
+If you have selected the highlights feature, the following arguments can be set:
+
+* *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
+* *min_highlight_duration* (float, default: *2*): (Float) Minimum duration of a highlight in seconds. 
+* *max_highlight_duration* (float, default: *10*): (Float) Maximum duration of a highlight in seconds. 
+* *highlighting_respect_shots* (bool, default: *true*): Enforce that the cutting of the highlight segment is respecting the segment boundaries predicted by the shot detector. Can be used to make sure that a highlight contains only one consistent scene. 
+
+
+The following example illustrates how the frame extraction rate (e.g., how many frames are analyzed per second of video) can be changed:
 ::
   
   curl 127.0.0.1:5000/video/tag?num_fps=6 -X POST -F "data=@./your_video.mp4"
