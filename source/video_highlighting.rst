@@ -79,15 +79,6 @@ Depending on the features that have been bought, there are a number of arguments
   curl 127.0.0.1:5000/video/tag?num_fps=6 -X POST -F "data=@./your_video.mp4"
   
 
-Error messages
----------------
-  
-If the video format is not supported, the status message is:
-::
-  
-  {'status': 'error', 'message': 'video_reading_error'}
-  
-
 Prediction in Python
 ---------------------
 

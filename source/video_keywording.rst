@@ -120,7 +120,6 @@ To get a thumbnail for subsegment use the following command:
 
 where subsegment_id is the index of the subsegment from predictions (counting from 0).
 
-
   
 
 Prediction in Python

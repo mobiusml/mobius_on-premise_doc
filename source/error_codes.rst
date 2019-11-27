@@ -1,4 +1,4 @@
-Troubleshooting
+Status Messages
 =================================
 
 The SDK is designed to return status messages to the user.
@@ -11,14 +11,13 @@ Messages are generally shown in the cases of errors or ongoing processing only.
 System set-up
 ----------------
 
-
 .. list-table:: Status messages in the context of system set-up
    :widths: 25 25 50
    :header-rows: 1
 
    * - Status message
-     - | Possible causes
-     - | Recommended solution
+     - Possible causes
+     - Recommended solution
    * - invalid_signature
      - | Various causes possible such as some issue with our token server.
      - | Please contact us.
@@ -37,7 +36,6 @@ System set-up
    * - unknown_token
      - | Token is not registered in our token verification system
      - | Please check your token.
-
 
 
 General use of SDK
@@ -61,10 +59,8 @@ General use of SDK
      - | The on-premise SDK supports jpg and png image formats.
        | Another possible solution is to verify that the image is not corrupted.
    * - video_reading_error
-     - | Various possible causes. 
-       | Often the error is caused because the video format is not supported. 
-       | The SDK supports mov and mp4 as formats. 
-     - | Please check the input file format. 
+     - | Video codec/extension is not supported.
+     - | Our SDK uses ffmpeg as backbone, so please make sure that your video is supported by ffmpeg.
    * - data_payload_required
      - | No data was provided or send request but no input data field was found.
      - | Please follow instructions from the documentation how to fill in data.
@@ -95,7 +91,6 @@ General use of SDK
    * - unknown_error
      - | Something unexpected happened. Catch-all error message.
      - | Please send us the traceback and exception fields of the response.
-
 
 
 Similarity search feature
@@ -152,7 +147,8 @@ Custom model training
      - | Provided image ID is already in use. Can happen if the same image
        | is passed to the add function multiple times.
      - | Please check the image IDs for uniqueness and remove duplicates.
-
+     
+     
 
 Face recognition
 ------------------------
