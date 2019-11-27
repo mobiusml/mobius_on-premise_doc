@@ -85,6 +85,26 @@ Furthermore, an optional argument can be used to specify a fixed video tagging i
   
     If *fixed_segment_length* is set, the shot detector is disabled.
 
+Thumbnails
+----------
+
+There is option to keep thumbnails for segments and subsegments. To enable the thumbnails set the argument `thumbnails_enabled` to `True` (`False` by default).
+
+To get a thumbnail for segment use the following command:
+::
+  
+  curl 127.0.0.1:5000/video/segment/<task_id>/<segment_id>
+
+where segment_id is the index of the segment from predictions (counting from 0).
+
+
+To get a thumbnail for subsegment use the following command:
+::
+  
+  curl 127.0.0.1:5000/video/subsegment/<task_id>/<subsegment_id>
+
+where subsegment_id is the index of the subsegment from predictions (counting from 0).
+
 
 Error messages
 ---------------
