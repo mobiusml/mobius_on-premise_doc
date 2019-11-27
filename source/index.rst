@@ -27,6 +27,7 @@
   image_aesthetic_score
   image_customized-training
   image_similarity-search
+  image_face_recognition
   
 
 .. toctree::
