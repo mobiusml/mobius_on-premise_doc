@@ -12,9 +12,11 @@ Requirements for the Mobius On-Premise SDK
 
 In order to run the Mobius Vision On-Premise SDK, the following software requirements have to be met:
 
-*   Nvidia Drivers >= 396.37 (for GPU version)
+*   Nvidia Drivers >= 410.48 (for GPU version)
 *   docker >= 1.12
 *   nvidia-docker2 (for GPU version)
+
+We can support the following hardware generations for GPUs: Kepler, Maxwell, Pascal, Volta, Turing
 
 We also offer a CPU version. Please let us know if you are interested in the specific requirements for that version. 
 

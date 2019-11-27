@@ -20,7 +20,7 @@ Adding Images to the Image Database
 The first step is to add images to the system by sending a POST request to the following endpoint:
 ::
 
-  curl 127.0.0.1:5000/similarity/add?image_id=<unique_id> -X POST -F "data=@./your_img.jpg"
+  curl 127.0.0.1:5000/system/database/image/add?image_id=<unique_id> -X POST -F "data=@./your_img.jpg"
 
 where image_id is an optional argument. Without this argument, the system will generate a random ID number and return it as a response.
 
@@ -31,10 +31,12 @@ where image_id is an optional argument. Without this argument, the system will g
 You can also add samples using the following python script:
 ::
 
-  def add_sample(img_path, image_id):
+  def add_sample(item):
+    img_path = item['path']
+    image_id = item['image_id']
     with open(img_path, 'rb') as image:
         data = {'data': image}
-        r = requests.post('http://127.0.0.1:5000/similarity/add?image_id=%s' % image_id, files=data).json()
+        r = requests.post('http://127.0.0.1:5000/system/database/image/add?image_id=%s' % image_id, files=data).json()
     return r
 
 Lastly, here is an example how to use multiprocessing in python to speed things up:
@@ -48,7 +50,7 @@ Lastly, here is an example how to use multiprocessing in python to speed things 
     image_id = item['image_id']
     with open(img_path, 'rb') as image:
         data = {'data': image}
-        r = requests.post('http://127.0.0.1:5000/similarity/add?image_id=%s' % image_id, files=data).json()
+        r = requests.post('http://127.0.0.1:5000/system/database/image/add?image_id=%s' % image_id, files=data).json()
     return r
 
   pool = Pool(50)
@@ -82,7 +84,7 @@ To train the similarity search approximator, send a GET request to the following
 The request above will return a json file with the field task_id. The following command shows how the task_id can be used to get the status of the training:
 ::
 
-  curl 127.0.0.1:5000/similarity/status/<task_id>
+  curl 127.0.0.1:5000/status/<task_id>
 
 The following error messages could appear:
 
