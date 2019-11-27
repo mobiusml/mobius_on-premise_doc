@@ -18,25 +18,53 @@ The steps required for training are:
 Adding images
 -------------
 
-To add image to SDK, you can send a POST request to the following endpoint:
+The first step is to add images to the system by sending a POST request to the following endpoint:
 ::
 
-  curl 127.0.0.1:5000/custom/add?image_id=<image_id> -X POST -F "data=@./your_img.jpg"
-  
+  curl 127.0.0.1:5000/system/database/image/add?image_id=<unique_id> -X POST -F "data=@./your_img.jpg"
+
 where image_id is an optional argument. Without this argument, the system will generate a random ID number and return it as a response.
 
-In python:
+.. note::
+
+  The IDs for image samples should be unique, since they are used internally to identify the images. We recommend either using numbers, or a combination of numbers and letters. They should be passed as a string.
+
+You can also add samples using the following python script:
 ::
 
-  def add_image(img, image_id=None):
-      with open(img,'rb') as image:
-          data = {'data': image}
-          url = 'http://127.0.0.1:5000/custom/add'
-          if image_id:
-              url += '?image_id=' + image_id
-          r = requests.post(url, files=data).json()
-      return r
+  def add_sample(item):
+    img_path = item['path']
+    image_id = item['image_id']
+    with open(img_path, 'rb') as image:
+        data = {'data': image}
+        r = requests.post('http://127.0.0.1:5000/system/database/image/add?image_id=%s' % image_id, files=data).json()
+    return r
 
+Lastly, here is an example how to use multiprocessing in python to speed things up:
+::
+
+  from multiprocessing import Pool
+  import requests
+
+  def add_sample(item):
+    img_path = item['path']
+    image_id = item['image_id']
+    with open(img_path, 'rb') as image:
+        data = {'data': image}
+        r = requests.post('http://127.0.0.1:5000/system/database/image/add?image_id=%s' % image_id, files=data).json()
+    return r
+
+  pool = Pool(50)
+  images = [{'image_id': '1', 'path': path_to_image1}, {'image_id': '2', 'path': path_to_image2}, ...] #List of image paths
+  results = pool.map(add_sample, images)
+  pool.close()
+  pool.join()
+
+When images are added to the database, the SDK processes them by extracting numerical features according to our pre-trained Mobius Vision keywording model. All processed samples are stored in an auxiliary structure.
+
+.. warning::
+
+  This step is computationally expensive. If the number of images is large (e.g., more than 1 million), it may take more than one day to process all images on a single GPU.
 
 Assigning images
 ----------------
@@ -159,6 +187,24 @@ In python:
           pred = requests.get('http://127.0.0.1:5000/custom/predict/%s/%s'%(tag, image_id)).json()
       return pred
 
+
+Prediction on the batch of added images
+---------------------------------------
+
+To get custom models predictions for the batch of added images, send a GET request to the following endpoint:
+::
+
+  curl 127.0.0.1:5000/custom/predict_batch?image_id=<list_of_image_ids>&tags=<list_of_tags>
+
+
+where `list_of_image_ids` is the list of image_id concatenated with comma and `list_of_tags` is the list of custom models concatenated with comma.
+
+In python:
+::
+  def get_predictions_batch(image_id_list, tag_list):
+      pred = session.get('http://127.0.0.1:5000/custom/predict_batch?tags=%s&image_id=%s'%
+                        (','.join(tag_list), ','.join(image_id_list))).json()
+      return pred
 
 Load a pretrained custom Model
 ------------------------------

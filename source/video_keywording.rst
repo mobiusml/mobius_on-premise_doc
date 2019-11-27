@@ -1,11 +1,12 @@
 Video Tagging
 ==============
-The video tagging module has been trained on our large in-house image dataset to provide state-of-the-art results for keywording and face recognition.
+
+The video tags module has been trained on our large in-house image dataset to provide state-of-the-art results for predictions with our 10000 standard concepts.
 
 Getting started
 ---------------
 
-In the following, we show an example of how to do prediction of keywords on videos.
+In the following, we show an example of how to do prediction of our standard concepts on videos.
 
 First, we need to send the video to the (local) server for analysis.
 ::
@@ -19,7 +20,7 @@ The above command will return an information message:
 
 The **task_id** will be required in the next step.
   
-Depending on various factors, including duration and resolution of the video, but also the type of keywording model selected (|lightweight_model| or |performance_model|), the time until the keywording is finished will vary. 
+Depending on various factors, including duration and resolution of the video, but also the type of tags model selected (|lightweight_model| or |performance_model|), the time until the tagging is finished will vary. 
 With the following command, you can check the status of the process at any time. 
 ::
   
@@ -32,7 +33,7 @@ If the video is still being processed, the status message will be:
   
   {"status": "ongoing", "message": "video_tagging"}
   
-When the processing is finished, the status message will contain the keywording results:
+When the processing is finished, the status message will contain the tags results:
 ::
   
   {"status": "success", "result": [{"keywords": [["people", 0.9846186637878418], 
@@ -41,9 +42,10 @@ When the processing is finished, the status message will contain the keywording 
 
 All keywords with a confidence above a certain threshold are returned (0.5 by default) in lists for 13 categories that are pre-defined. Using the categories structures the output to be easier for humans to comprehend as the total standard list of concepts is more than 10 thousand for the latest SDK version. 
 
+
 .. note::
     
-    Depending on the complexity of a video shot, the number of keywords returned will vary. In addition, in case the shot
+    Depending on the complexity of a video shot, the number of concepts returned will vary. In addition, in case the shot
     detector in disabled, the results might also be of lower quality in cases where a segment contains different shots (and hence, potentially very different concepts). 
 
 
@@ -57,7 +59,9 @@ Results of face recognition are returned as a list called *identities*.
 Arguments
 ----------
 
-Depending on the features that are packaged into the SDK, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates this:
+
+Depending on the features that have been packaged into the SDK, there are a number of arguments that can be passed. The arguments can be passed by adding a "?" after the tag command, followed by the argument=value. Several arguments are separated using the "&". The following example illustrates this:
+
 ::
   
   curl 127.0.0.1:5000/video/tag?keyword_threshold=0.6 -X POST -F "data=@./your_video.mp4"
@@ -68,7 +72,7 @@ Below is list of the different arguments that can be set, together with their de
 
 **Keyword Tagging**
 
-If you have bought the keyword tagging feature, the following arguments can be set:
+If you have selected the keyword tagging feature, the following arguments can be set:
 
 * *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
 * *tag_keywords* (default: *true*): Flag to signal if keywording tags should be returned.
@@ -78,20 +82,44 @@ If you have bought the keyword tagging feature, the following arguments can be s
 * *group_id* (default: `default`): An optional argument that specifies a database to use for face identification. The standard database of face landmark information and corresponding labels of a selection of more than 10 thousand celebrities that can be provided by Mobius is called *mobius_core*. 
 
 
+
 **Segment-level and Video-level Tagging**
 
-|mobvis_video| offers both segment-level as well as video-level tagging of videos, whose default values depend on whether the **shot detection feature** has been packaged to the SDK. The arguments are:
+|mobvis_video| offers both segment-level as well as video-level tagging of videos, whose default values depend on whether the **shot detection feature** has been selected. The arguments are:
 
 * *video_level_tags* (default *true*)
-* *shot_level_tags* (default *true* if **shot detection has been bought**, *false* otherwise)
+* *shot_level_tags* (default *true* if **shot detection has been selected**, *false* otherwise)
 
-Furthermore, an optional argument can be used to specify a fixed video tagging interval. This can be useful in case the shot detection feature has not been packaged to the SDK, but the content is still changing over time.
+
+Furthermore, an optional argument can be used to specify a fixed video tagging interval. This can be useful in case the shot detection feature has not been selected, but the content is still changing over time.
 
 * *fixed_segment_length* (default *3* seconds)
 
 .. note::
   
     If *fixed_segment_length* is set, the shot detector is disabled. This means that the video will be analysed in segments of an equal length. In case of drastic scene changes there is a chance that the results will be averaged (pooled) over the scene change hence important concepts might disappear from the results of this segment. 
+
+
+Thumbnails
+----------
+
+There is option to keep thumbnails for segments and subsegments. To enable the thumbnails set the argument `thumbnails_enabled` to `True` (`False` by default).
+
+To get a thumbnail for segment use the following command:
+::
+  
+  curl 127.0.0.1:5000/video/segment/<task_id>/<segment_id>
+
+where segment_id is the index of the segment from predictions (counting from 0).
+
+
+To get a thumbnail for subsegment use the following command:
+::
+  
+  curl 127.0.0.1:5000/video/subsegment/<task_id>/<subsegment_id>
+
+where subsegment_id is the index of the subsegment from predictions (counting from 0).
+
 
   
 
