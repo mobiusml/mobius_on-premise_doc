@@ -19,8 +19,8 @@ System set-up
      - Possible causes
      - Recommended solution
    * - invalid_signature
-     - | Various causes possible such as some issue with our token server.
-     - | Please contact us.
+     - | Provided signature does not match to signature on token server.
+     - | Please check your token or contact us.
    * - token_server_connection_error
      - | System can't connect to token verification server.
        | Can happen if the Mobius Labs token server is offline.
