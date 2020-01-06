@@ -37,21 +37,27 @@ When the processing is finished, the status message will contain metadata of the
 ::
 
     {"video_level":
-    {"concepts": [["conceptual", [["togetherness", 1.0], ["beauty in nature", 1.0], ["silhouette", 1.0],]],
-    ["nature", [["sky", 1.0], ["sea", 1.0], ["beach", 1.0], ]],
-    ["people", [["adult", 1.0], ["two people", 1.0], ["women", 1.0], ]],
-    ["photographic", [["full length", 1.0], ["rear view", 0.4], ["side view", 0.4],  ["animals", [["animal", 0.4]]]],
-    "identities": {"default": []}}, 
+    {"concepts": [
+    ["conceptual", [["togetherness", 1.0], ["beauty in nature", 1.0], ["silhouette", 1.0],...]],
+    ["nature", [["sky", 1.0], ["sea", 1.0], ["beach", 1.0],... ]],
+    ["people", [["adult", 1.0], ["two people", 1.0], ["women", 1.0],... ]],
+    ["photographic", [["full length", 1.0], ["rear view", 0.4], ["side view", 0.4],... ]],
+    ["animals", [["animal", 0.4]]],...],
+    "identities": {"default": []}},
     "status": "success",
 
     "segment_level":
     [{"identities": {"default": []}, "timestamp": [0.0, 4.0],
-     "concepts": [["conceptual", [["togetherness", 0.9454852938652039], ["beauty in nature", 0.9428154826164246], ["silhouette", 0.9340276718139648], ]]],
-    ["nature", [["beach", 0.9955477714538574], ["sky", 0.9953177571296692], ["sea", 0.9952855706214905],]],
-    ["people", [["adult", 0.9553800821304321], ["one person", 0.9429706931114197]]]]},
-    {"identities": {"default": []}, "timestamp": [2.6666666666666665, 4.0], "concepts": [["conceptual", [["togetherness", 0.9402145147323608], ["silhouette", 0.8901964426040649], ["beauty in nature", 0.8612235188484192]]],
-    ["nature", [["beach", 0.9955477714538574], ["sea", 0.9937513470649719], ["sky", 0.9925636053085327]]],
-    ["people", [["two people", 0.9449461102485657], ["adult", 0.9440362453460693], ["women", 0.9152339696884155]]]]}],
+     "concepts": [
+    ["conceptual", [["togetherness", 0.9454852938652039], ["beauty in nature", 0.9428154826164246 ], ...]],
+    ["nature", [["beach", 0.9955477714538574], ["sky", 0.9953177571296692], ["sea", 0.9952855706214905],...]],
+    ["people", [["adult", 0.9553800821304321], ["one person", 0.9429706931114197],...]],...]},
+
+    {"identities": {"default": []}, "timestamp": [2.6666666666666665, 4.0],
+    "concepts": [
+    ["conceptual", [["togetherness", 0.9402145147323608], ["silhouette", 0.8901964426040649], ...]],
+    ["nature", [["beach", 0.9955477714538574], ["sea", 0.9937513470649719], ["sky", 0.9925636053085327], ...]],
+    ["people", [["two people", 0.9449461102485657], ["adult", 0.9440362453460693], ["women", 0.9152339696884155],...]],...]},
 
      "meta_information": {"height": 1080, "width": 1920, "duration": 7.273933, "size": 3.8400964736938477, "fps": 29.97002997002997},
     "warnings": []}
