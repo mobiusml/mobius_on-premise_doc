@@ -67,8 +67,7 @@ For the prediction of standard concepts, all keywords with a confidence above a 
 
 .. note::
 
-    Depending on the complexity of a video shot, the number of concepts returned will vary. In addition, in case the shot
-    detector in disabled, the results might also be of lower quality in cases where a segment contains different shots (and hence, potentially very different concepts).
+    Depending on the content of a video, the number of concepts and identities returned can vary greatly. The SDK provides arguments for adjusting the output. Please see below for further details.
 
 
 Results of face recognition are returned as a list called *identities*.
@@ -76,6 +75,8 @@ Results of face recognition are returned as a list called *identities*.
 .. note::
 
     In order to match a face in a frame to faces in a database, the face has to be first detected and located in the frame. This might fail if the face is obscured partially or at an extreme angle. Best detection results can be obtained when the face is facing the camera. For the step of matching the face to the database, no match might be made if the facial landmarks are obscured by sunglasses, hats or other accessiors or if the face is partially too dark. Identities can be only returned when a face is successfully located and the machine is confident that the facial landmarks are a match to the sample in the database.
+
+The metadata is extracted from the video file and added to the output JSON for potential further processing. The file name or path is not automatically included here.
 
 
 Arguments
@@ -92,20 +93,25 @@ Below is list of the different arguments that can be set, together with their de
 
 
 
-**Keyword Tagging**
+**Tags: Standard concepts**
 
-If you have selected the keyword tagging feature, the following arguments can be set:
+An SDK that has tagging with standard concepts, the following arguments can be set:
 
 * *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
 * *tag_keywords* (default: *true*): Flag to signal if keywording tags should be returned.
 * *keyword_threshold* (default: *0.5*): Threshold on the confidence of the keyword predictions. When a lower threshold is set, more tags will be returned but the machine has a lower confidence that they are correct.
 * *keyword_topk* (default: *50*): Maximum number of keywords to be returned *per video shot*.
+
+**Face recognition: identities**
+
+If you have an SDK with the face recognition feature, the following arguments can be set:
+
+* *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
 * *tag_faces* (default: true): Flag for the SDK if face recognition should be used and detected labels for faces should be returned in a separate category of tags called *identities*.
-* *group_id* (default: `default`): An optional argument that specifies a database to use for face identification. The standard database of face landmark information and corresponding labels of a selection of more than 10 thousand celebrities that can be provided by Mobius is called *mobius_core*.
+* *group_id* (default: `default`): An optional argument that specifies a database to use for face identification. The standard database of face landmark information and corresponding labels of a selection of more than 10 thousand celebrities that can be provided by Mobius is called *mobius_core*. You can also pass multiple group_ids as an array.
 
 
-
-**Segment-level and Video-level Tagging**
+**Segment-level and Video-level tags and identities**
 
 |mobvis_video| offers both segment-level as well as video-level tagging of videos, whose default values depend on whether the **shot detection feature** has been selected. The arguments are:
 
@@ -125,7 +131,8 @@ Furthermore, an optional argument can be used to specify a fixed video tagging i
 Thumbnails
 ----------
 
-There is option to keep thumbnails for segments and subsegments. To enable the thumbnails set the argument `thumbnails_enabled` to `True` (`False` by default).
+There is option to keep thumbnail images for segments and subsegments. To enable the thumbnails set the argument `thumbnails_enabled` to `True` (`False` by default).
+Thumbnail images can be useful for visualizations of predictions on segments or subsegments of interest.
 
 To get a thumbnail for segment use the following command:
 ::
@@ -147,7 +154,7 @@ where subsegment_id is the index of the subsegment from predictions (counting fr
 Prediction in Python
 ---------------------
 
-The code snipped below shows how prediction can be done in Python.
+The code snippet below shows how prediction can be done in Python with a loop to check when a task has been completed.
 
 ::
 
