@@ -62,7 +62,7 @@ When the processing is finished, the status message will contain metadata of the
      "meta_information": {"height": 1080, "width": 1920, "duration": 7.273933, "size": 3.8400964736938477, "fps": 29.97002997002997},
     "warnings": []}
 
-For the prediction of standard concepts, all keywords with a confidence above a certain threshold are returned (0.5 by default) in lists for 13 categories that are pre-defined. Using the categories structures the output to be easier for humans to comprehend as the total standard list of concepts is more than 10 thousand for the latest SDK version.
+For the prediction of standard concepts, all keywords with a confidence above a certain threshold are returned (0.55 by default) in lists for 13 categories that are pre-defined. Using the categories structures the output to be easier for humans to comprehend as the total standard list of concepts is more than 10 thousand for the latest SDK version.
 
 
 .. note::
@@ -99,7 +99,7 @@ An SDK that has tagging with standard concepts, the following arguments can be s
 
 * *num_fps* (int, default: *3*): (Integer) Number of frames per second that are to be extracted and analyzed. This value should be increased for fast changing content. Doubling this value roughly doubles the processing time of our SDK.
 * *tag_keywords* (default: *true*): Flag to signal if keywording tags should be returned.
-* *keyword_threshold* (default: *0.5*): Threshold on the confidence of the keyword predictions. When a lower threshold is set, more tags will be returned but the machine has a lower confidence that they are correct.
+* *keyword_threshold* (default: *0.55*): Threshold on the confidence of the keyword predictions. When a lower threshold is set, more tags will be returned but the machine has a lower confidence that they are correct.
 * *keyword_topk* (default: *50*): Maximum number of keywords to be returned *per video shot*.
 
 **Face recognition: identities**
@@ -167,7 +167,7 @@ The code snippet below shows how prediction can be done in Python with a loop to
              task_id = res['task_id']
              msg = requests.get('http://127.0.0.1:5000/status/' + task_id).json()
 
-             while(msg['status'] is 'ongoing'):
+             while(msg['status'] == 'ongoing' or msg['status'] == 'in_queue'):
                  msg = requests.get('http://127.0.0.1:5000/status/' + task_id).json()
                  time.sleep(1.0)
 
