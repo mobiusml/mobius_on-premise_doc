@@ -8,6 +8,8 @@ About Mobius Vision SDK
 AI powered Computer Vision that lives on the Edge
 --------------------------------------------------
 
+New documentation is available on https://docs.mobius.ml/on_premise/latest.
+
 Mobius Labs provides next-generation Computer Vision technology for edge devices and on-premise solutions. 
 
 Use this on-premise SDK to train custom concepts or styles, build libraries, and create solutions that are 100% your own intellectual property.
