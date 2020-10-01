@@ -1,6 +1,7 @@
 .. image::
   data/green_Mobius_Vision_Logotype.png
   :align: left
+  :target: https://mobiuslabs.com/
 
 About Mobius Vision SDK
 ==========================
